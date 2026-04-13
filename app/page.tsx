@@ -18,7 +18,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchStrapiNews() {
       try {
-        const res = await fetch('http://localhost:1337/api/articles?filters[type][$eq]=Новость&populate=*&pagination[limit]=3&sort=createdAt:desc', {
+        const res = await fetch('https://smart-admin-api.onrender.com/api/articles?filters[type][$eq]=Новость&populate=*&pagination[limit]=3&sort=createdAt:desc', {
           cache: 'no-store'
         });
         const json = await res.json();
@@ -53,7 +53,7 @@ export default function Home() {
   useEffect(() => {   
     async function fetchStrapiArticles() {
       try {
-        const res = await fetch('http://localhost:1337/api/articles?filters[type][$eq]=Статья&populate=*&pagination[limit]=3&sort=createdAt:desc', {
+        const res = await fetch('https://smart-admin-api.onrender.com/api/articles?filters[type][$eq]=Статья&populate=*&pagination[limit]=3&sort=createdAt:desc', {
           cache: 'no-store'
         });
         const json = await res.json();

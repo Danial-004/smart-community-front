@@ -16,7 +16,7 @@ export default function TemplatesPage() {
         async function fetchTemplates() {
             try {
                 // Strapi-ден Шаблондарды тартамыз
-                const res = await fetch('http://localhost:1337/api/articles?filters[type][$eq]=Шаблон&populate=*', {
+                const res = await fetch('https://smart-admin-api.onrender.com/api/articles?filters[type][$eq]=Шаблон&populate=*', {
                     cache: 'no-store'
                 });
                 const json = await res.json();
@@ -30,7 +30,7 @@ export default function TemplatesPage() {
 
                         // Файлдың бар-жоғын тексеру (Жаңа қосқан documentFile өрісінен)
                         const fileData = item.documentFile;
-                        const fileUrl = fileData?.url ? `http://localhost:1337${fileData.url}` : "#";
+                        const fileUrl = fileData?.url ? `https://smart-admin-api.onrender.com${fileData.url}` : "#";
                         const fileExt = fileData?.ext ? fileData.ext.replace('.', '').toUpperCase() : "DOCX";
                         const fileSize = fileData?.size ? Math.round(fileData.size) + " KB" : "Неизвестно";
 

@@ -14,7 +14,7 @@ export default function SingleNewsPage() {
     async function fetchSingleNews() {
       try {
         // Strapi-ден тек осы ID-ге тиесілі 1 ғана жаңалықты тартамыз
-        const res = await fetch(`http://localhost:1337/api/articles/${id}?populate=*`, {
+        const res = await fetch(`https://smart-admin-api.onrender.com/api/articles/${id}?populate=*`, {
           cache: 'no-store'
         });
         const json = await res.json();
@@ -61,7 +61,7 @@ export default function SingleNewsPage() {
 
   // 2. Суретті алу
   const imageUrl = article.image?.url 
-    ? `http://localhost:1337${article.image.url}` 
+    ? `${article.image.url}` 
     : 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop';
 
   const publishedDate = new Date(article.createdAt).toLocaleDateString('ru-RU', {

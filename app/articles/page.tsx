@@ -18,7 +18,7 @@ export default function ArticlesPage() {
     async function fetchArticles() {
       try {
         
-        const res = await fetch('http://localhost:1337/api/articles?filters[type][$eq]=Статья&populate=*', {
+        const res = await fetch('https://smart-admin-api.onrender.com/api/articles?filters[type][$eq]=Статья&populate=*', {
           cache: 'no-store'
         });
         const json = await res.json();
