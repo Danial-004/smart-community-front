@@ -147,8 +147,23 @@ export default function NewsPage() {
         )}
       </main>
 
+
       <footer className="bg-slate-900 text-white py-8 mt-0">
         <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-b border-slate-800 pb-6 mb-4">
+            <div className="max-w-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="bg-blue-600 p-1.5 rounded-lg"><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 21h18M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"></path></svg></div>
+                <span className="font-extrabold text-xl tracking-tight">SMART</span>
+              </div>
+              <p className="text-slate-400 text-xs leading-relaxed">Информационно-справочный портал ЖКХ. Найдите ответы и нужные сервисные компании.</p>
+            </div>
+            <div className="flex flex-col md:flex-row gap-6 text-xs text-slate-400">
+              <p className="flex items-center gap-2">📍 Астана, ул. Алихан Бокейхан, 2</p>
+              <p className="flex items-center gap-2">✉️ info@smartcommunity.kz</p>
+              <p className="flex items-center gap-2">📞 +7 (700) 000 00 00</p>
+            </div>
+          </div>
           <div className="text-center text-slate-500 text-xs">
             © 2026 Smart Community. Разработано в образовательных целях.
           </div>
