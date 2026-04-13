@@ -54,9 +54,9 @@ export default function SingleNewsPage() {
   // 1. Текстті Blocks форматынан шығарып, абзац-абзацпен бөлу
   let textParagraphs: string[] = [];
   if (typeof article.content === 'string') {
-    textParagraphs = article.content.split('\n').filter(p => p.trim() !== '');
+    textParagraphs = article.content.split('\n').filter((p: string) => p.trim() !== '');
   } else if (Array.isArray(article.content)) {
-    textParagraphs = article.content.map((block: any) => block.children?.[0]?.text || '').filter(text => text.trim() !== '');
+    textParagraphs = article.content.map((block: any) => block.children?.[0]?.text || '').filter((text: string) => text.trim() !== '');
   }
 
   // 2. Суретті алу
