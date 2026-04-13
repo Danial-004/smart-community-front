@@ -30,7 +30,14 @@ export default function TemplatesPage() {
 
                         // Файлдың бар-жоғын тексеру (Жаңа қосқан documentFile өрісінен)
                         const fileData = item.documentFile;
-                        const fileUrl = fileData?.url ? `https://smart-admin-api.onrender.com${fileData.url}` : "#";
+                        let fileUrl = "#";
+                        if (fileData?.url) {
+                            // Егер сілтеме "http" деп басталса (Cloudinary болса), сол күйінде аламыз. 
+                            // Ал егер басталмаса, алдына Render-дің сілтемесін қосамыз.
+                            fileUrl = fileData.url.startsWith('http') 
+                                ? fileData.url 
+                                : `https://smart-admin-api.onrender.com${fileData.url}`;
+                        }
                         const fileExt = fileData?.ext ? fileData.ext.replace('.', '').toUpperCase() : "DOCX";
                         const fileSize = fileData?.size ? Math.round(fileData.size) + " KB" : "Неизвестно";
 
