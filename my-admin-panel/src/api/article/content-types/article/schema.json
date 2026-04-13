@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articles",
+  "info": {
+    "singularName": "article",
+    "pluralName": "articles",
+    "displayName": "Article"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "blocks"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Новость",
+        "Статья",
+        "Шаблон"
+      ]
+    },
+    "documentFile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "docCategory": {
+      "type": "enumeration",
+      "enum": [
+        "Инструкция",
+        "Законодательство",
+        "Аварийная ситуация",
+        "Управление ОСИ",
+        "Создание ОСИ",
+        "Собрания",
+        "Договоры",
+        "Акты и Отчеты"
+      ]
+    }
+  }
+}
