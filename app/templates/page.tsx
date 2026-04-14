@@ -6,7 +6,6 @@ export default function TemplatesPage() {
     const pathname = usePathname();
     const [activeCategory, setActiveCategory] = useState("Все");
     
-    // СЕНІҢ ОРИГИНАЛ КАТЕГОРИЯЛАРЫҢ ҚАЙТЫП КЕЛДІ:
     const categories = ["Все", "Создание ОСИ", "Собрания", "Договоры", "Акты и Отчеты"];
 
     const [documents, setDocuments] = useState<any[]>([]);
@@ -15,7 +14,7 @@ export default function TemplatesPage() {
     useEffect(() => {
         async function fetchTemplates() {
             try {
-                // Strapi-ден Шаблондарды тартамыз
+                // Strapi (Render) базасынан Шаблондарды тартамыз
                 const res = await fetch('https://smart-admin-api.onrender.com/api/articles?filters[type][$eq]=Шаблон&populate=*', {
                     cache: 'no-store'
                 });
@@ -23,25 +22,37 @@ export default function TemplatesPage() {
                 
                 if (json.data) {
                     const formattedDocs = json.data.map((item: any) => {
-                        // Текстті шығарып алу
                         let textContent = "Описание шаблона...";
                         if (typeof item.content === 'string') textContent = item.content;
                         else if (Array.isArray(item.content)) textContent = item.content[0]?.children?.[0]?.text || "Описание шаблона...";
 
-                        // Файлдың бар-жоғын тексеру (Жаңа қосқан documentFile өрісінен)
                         const fileData = item.documentFile;
-                        const fileUrl = fileData?.url ? `https://smart-admin-api.onrender.com${fileData.url}` : "#";
+                        
+                        // СИҚЫР ОСЫ ЖЕРДЕ: Ссылканы дұрыстау және бірден Скачать еткізу
+                        let fileUrl = "#";
+                        if (fileData && fileData.url) {
+                            if (fileData.url.startsWith('http')) {
+                                fileUrl = fileData.url;
+                                // Cloudinary болса, браузерде ашпай, бірден скачать етуі үшін fl_attachment қосамыз
+                                if (fileUrl.includes('cloudinary.com')) {
+                                    fileUrl = fileUrl.replace('/upload/', '/upload/fl_attachment/');
+                                }
+                            } else {
+                                // Егер локальный болса
+                                fileUrl = `https://smart-admin-api.onrender.com${fileData.url}`;
+                            }
+                        }
+
                         const fileExt = fileData?.ext ? fileData.ext.replace('.', '').toUpperCase() : "DOCX";
                         const fileSize = fileData?.size ? Math.round(fileData.size) + " KB" : "Неизвестно";
 
                         return {
                             id: item.documentId || item.id,
                             title: item.title,
-                            // Енді категорияны Strapi-ден алады
                             category: item.docCategory || "Акты и Отчеты", 
                             format: fileExt,
                             size: fileSize,
-                            file: fileUrl, // Нағыз файлға сілтеме
+                            file: fileUrl, 
                             desc: textContent
                         };
                     });
@@ -77,26 +88,14 @@ export default function TemplatesPage() {
                         </a>
                     </div>
 
-          <nav className="hidden lg:flex gap-8 font-semibold text-sm">
-            <a href="/" className={`flex items-center gap-2 transition-colors ${pathname === '/' ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> Главная
-            </a>
-            <a href="/news" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/news') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg> Новости
-            </a>
-            <a href="/articles" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/articles') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" /></svg> Статьи
-            </a>
-            <a href="/templates" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/templates') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> Шаблоны
-            </a>
-            <a href="/services" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/services') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> Услуги
-            </a>
-            <a href="/faq" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/faq') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> FAQ
-            </a>
-          </nav>
+                    <nav className="hidden lg:flex gap-8 font-semibold text-sm">
+                        <a href="/" className={`flex items-center gap-2 transition-colors ${pathname === '/' ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Главная</a>
+                        <a href="/news" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/news') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Новости</a>
+                        <a href="/articles" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/articles') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Статьи</a>
+                        <a href="/templates" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/templates') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Шаблоны</a>
+                        <a href="/services" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/services') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Услуги</a>
+                        <a href="/faq" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/faq') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>FAQ</a>
+                    </nav>
 
                     <div className="w-48 hidden lg:block"></div>
                 </div>
@@ -156,7 +155,6 @@ export default function TemplatesPage() {
                                     <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                                         <span className="text-xs text-gray-400 font-medium">Размер: {doc.size}</span>
                                         
-                                        {/* НАҒЫЗ СКАЧАТЬ КНОПКАСЫ */}
                                         <a 
                                             href={doc.file} 
                                             target="_blank"
