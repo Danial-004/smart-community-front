@@ -29,14 +29,12 @@ export default function TemplatesPage() {
                         const fileData = item.documentFile;
                         
                         // СИҚЫР ОСЫ ЖЕРДЕ: Ссылканы дұрыстау және бірден Скачать еткізу
+// ЖАҢАРТЫЛҒАН ТАЗА КОД:
                         let fileUrl = "#";
                         if (fileData && fileData.url) {
+                            // Егер ссылка Cloudinary-ден (http) келсе - сол күйінде қалдырамыз
                             if (fileData.url.startsWith('http')) {
                                 fileUrl = fileData.url;
-                                // Cloudinary болса, браузерде ашпай, бірден скачать етуі үшін fl_attachment қосамыз
-                                if (fileUrl.includes('cloudinary.com')) {
-                                    fileUrl = fileUrl.replace('/upload/', '/upload/fl_attachment/');
-                                }
                             } else {
                                 // Егер локальный болса
                                 fileUrl = `https://smart-admin-api.onrender.com${fileData.url}`;
