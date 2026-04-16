@@ -11,6 +11,9 @@ export default function TemplatesPage() {
     const [documents, setDocuments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+
     useEffect(() => {
         async function fetchTemplates() {
             try {
@@ -74,32 +77,65 @@ export default function TemplatesPage() {
     return (
         <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-blue-200">
             
-            <header className="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm transition-all">
-                <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-                    <div className="w-48 flex-shrink-0">
-                        <a href="/" className="flex items-center gap-3 cursor-pointer group inline-flex">
-                            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-2.5 rounded-xl text-white shadow-md group-hover:scale-105 transition-transform">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="font-extrabold text-xl text-slate-900 leading-none tracking-tight">SMART</span>
-                                <span className="font-semibold text-[10px] text-blue-600 uppercase mt-1">Community</span>
-                            </div>
-                        </a>
-                    </div>
+<header className="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm transition-all">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+          
+          {/* ЛОГОТИП */}
+          <div className="w-48 flex-shrink-0">
+            <a href="/" className="flex items-center gap-3 cursor-pointer group inline-flex">
+              <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-2.5 rounded-xl text-white shadow-md group-hover:scale-105 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-extrabold text-xl text-slate-900 leading-none tracking-tight">SMART</span>
+                <span className="font-semibold text-[10px] text-blue-600 uppercase mt-1">Community</span>
+              </div>
+            </a>
+          </div>
 
-                    <nav className="hidden lg:flex gap-8 font-semibold text-sm">
-                        <a href="/" className={`flex items-center gap-2 transition-colors ${pathname === '/' ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Главная</a>
-                        <a href="/news" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/news') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Новости</a>
-                        <a href="/articles" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/articles') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Статьи</a>
-                        <a href="/templates" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/templates') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Шаблоны</a>
-                        <a href="/services" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/services') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>Услуги</a>
-                        <a href="/faq" className={`flex items-center gap-2 transition-colors ${pathname?.startsWith('/faq') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'}`}>FAQ</a>
-                    </nav>
+          {/* КОМПЬЮТЕРГЕ АРНАЛҒАН МЕНЮ (Телефонда жасырынады) */}
+          <nav className="hidden lg:flex gap-8 font-semibold text-sm">
+            <a href="/" className="text-slate-600 hover:text-blue-600 transition-colors">Главная</a>
+            <a href="/news" className="text-slate-600 hover:text-blue-600 transition-colors">Новости</a>
+            <a href="/articles" className="text-slate-600 hover:text-blue-600 transition-colors">Статьи</a>
+            <a href="/templates" className="text-slate-600 hover:text-blue-600 transition-colors">Шаблоны</a>
+            <a href="/services" className="text-slate-600 hover:text-blue-600 transition-colors">Услуги</a>
+            <a href="/faq" className="text-slate-600 hover:text-blue-600 transition-colors">FAQ</a>
+          </nav>
 
-                    <div className="w-48 hidden lg:block"></div>
-                </div>
-            </header>
+          {/* ТЕЛЕФОНҒА АРНАЛҒАН БУРГЕР КНОПКА (☰) */}
+          <div className="lg:hidden flex items-center">
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+              className="text-slate-600 hover:text-blue-600 focus:outline-none p-2"
+            >
+              <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {isMobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /> // Крестик (X)
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /> // 3 сызық (☰)
+                )}
+              </svg>
+            </button>
+          </div>
+          
+          <div className="w-48 hidden lg:block"></div>
+        </div>
+
+        {/* ТЕЛЕФОНҒА АРНАЛҒАН АШЫЛАТЫН МЕНЮ (Тек кнопка басылғанда көрінеді) */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden bg-white border-t border-slate-100 shadow-lg absolute w-full left-0">
+            <div className="flex flex-col px-4 py-4 space-y-4">
+              <a href="/" className="text-slate-700 font-bold hover:text-blue-600">Главная</a>
+              <a href="/news" className="text-slate-700 font-bold hover:text-blue-600">Новости</a>
+              <a href="/articles" className="text-slate-700 font-bold hover:text-blue-600">Статьи</a>
+              <a href="/templates" className="text-slate-700 font-bold hover:text-blue-600">Шаблоны</a>
+              <a href="/services" className="text-slate-700 font-bold hover:text-blue-600">Услуги</a>
+              <a href="/faq" className="text-slate-700 font-bold hover:text-blue-600">FAQ</a>
+            </div>
+          </div>
+        )}
+      </header>
             
             <section className="relative w-full h-80 bg-gray-900 flex items-center justify-center overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" alt="Документы ОСИ" className="absolute inset-0 w-full h-full object-cover opacity-30" />
