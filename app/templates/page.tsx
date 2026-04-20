@@ -195,18 +195,16 @@ export default function TemplatesPage() {
                                         <span className="text-xs text-gray-400 font-medium">Размер: {doc.size}</span>
                                         
                                     {doc.file ? (
-                                        <a 
-                                            href={doc.file} 
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            // Cloudinary-де fl_attachment бар, ал Render үшін DOCX файлдар браузердің өзімен авто-жүктеледі
-                                            className="flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition cursor-pointer"
-                                        >
-                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                            </svg>
-                                            Скачать
-                                        </a>
+                                    <a 
+                                        href={doc.file} 
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition cursor-pointer"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        Скачать
+                                    </a>
                                     ) : (
                                         <span className="text-gray-400 text-xs italic">Файл жоқ</span>
                                     )}
