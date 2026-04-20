@@ -77,8 +77,37 @@ export default function TemplatesPage() {
         ? documents
         : documents.filter(doc => doc.category === activeCategory);
 
+        const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>, url: string, title: string, format: string) => {
+    e.preventDefault(); // Браузердің әдепкі қатемен ашуын тоқтатамыз
+    
+    try {
+        // Файлды артқы фонда (background) жүктейміз
+        const response = await fetch(url);
+        const blob = await response.blob();
+        
+        // Файлды браузердің жадынан "тұрып" жүктеуге сілтеме жасаймыз
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `${title}.${format.toLowerCase()}`; // Жүктелетін файлдың аты (мысалы: "Шаблон.pdf")
+        
+        // Батырманы жасырын басамыз
+        document.body.appendChild(link);
+        link.click();
+        
+        // Артынша тазалап тастаймыз
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+        console.error("Жүктеу қатесі:", error);
+        // Егер қауіпсіздік саясаты бұған да тыйым салса, ешқандай қатесіз жаңа терезеде ашамыз
+        window.open(url, '_blank');
+    }
+};
+
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-blue-200">
+        <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-blue-200"> 
+        
             
 <header className="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm transition-all">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
