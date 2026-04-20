@@ -156,7 +156,7 @@ export default function Home() {
           <div className="w-48 hidden lg:block"></div>
         </div>
 
-        {/* ТЕЛЕФОНҒА АРНАЛҒАН АШЫЛАТЫН МЕНЮ (Тек кнопка басылғанда көрінеді) */}
+        
         {isMobileMenuOpen && (
           <div className="lg:hidden bg-white border-t border-slate-100 shadow-lg absolute w-full left-0">
             <div className="flex flex-col px-4 py-4 space-y-4">
@@ -173,7 +173,7 @@ export default function Home() {
 
       <section className="max-w-7xl mx-auto px-4 py-16 flex flex-col lg:flex-row gap-12 items-center">
         
-        {/* Сол жақ мәтін */}
+
         <div className="flex-1 z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-sm font-bold mb-6">
             <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>

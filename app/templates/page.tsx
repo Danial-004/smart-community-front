@@ -29,19 +29,22 @@ export default function TemplatesPage() {
                         if (typeof item.content === 'string') textContent = item.content;
                         else if (Array.isArray(item.content)) textContent = item.content[0]?.children?.[0]?.text || "Описание шаблона...";
 
-                        const fileData = item.documentFile;
+                        const fileData = item.documentFile?.data?.attributes 
+                        || item.attributes?.documentFile?.data?.attributes 
+                        || item.documentFile;
                         
-                        // СИҚЫР ОСЫ ЖЕРДЕ: Ссылканы дұрыстау және бірден Скачать еткізу
-                        let fileUrl = "#";
+                    
+                        let fileUrl = "";
+
                         if (fileData && fileData.url) {
                             if (fileData.url.startsWith('http')) {
                                 fileUrl = fileData.url;
-                                // Cloudinary болса, браузерде ашпай, бірден скачать етуі үшін fl_attachment қосамыз
+                                // Cloudinary үшін өте дұрыс логика жазғансың, соны қалдырамыз:
                                 if (fileUrl.includes('cloudinary.com')) {
                                     fileUrl = fileUrl.replace('/upload/', '/upload/fl_attachment/');
                                 }
                             } else {
-                                // Егер локальный болса
+                                // Егер Render-дің өз ішінде сақталса:
                                 fileUrl = `https://smart-admin-api.onrender.com${fileData.url}`;
                             }
                         }
@@ -157,7 +160,7 @@ export default function TemplatesPage() {
                                 </button>
                             ))}
                         </div>
-                        <div className="mt-8 p-5 bg-orange-50 rounded-xl border border-orange-100">
+                        <div className="mt-8 p-5 bg-orange-50 rounded-xl border bor der-orange-100">
                             <span className="text-2xl mb-2 block">💡</span>
                             <h3 className="font-bold text-orange-800 mb-2">Нужна помощь юриста?</h3>
                             <p className="text-sm text-orange-700 mb-4">Наши партнеры помогут правильно оформить протокол.</p>
@@ -191,11 +194,12 @@ export default function TemplatesPage() {
                                     <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                                         <span className="text-xs text-gray-400 font-medium">Размер: {doc.size}</span>
                                         
+                                    {doc.file ? (
                                         <a 
                                             href={doc.file} 
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            download 
+                                            // Cloudinary-де fl_attachment бар, ал Render үшін DOCX файлдар браузердің өзімен авто-жүктеледі
                                             className="flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition cursor-pointer"
                                         >
                                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -203,6 +207,9 @@ export default function TemplatesPage() {
                                             </svg>
                                             Скачать
                                         </a>
+                                    ) : (
+                                        <span className="text-gray-400 text-xs italic">Файл жоқ</span>
+                                    )}
                                         
                                     </div>
                                 </div>
